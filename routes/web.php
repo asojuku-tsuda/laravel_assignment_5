@@ -1,23 +1,21 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MigrationVerifierController;
 
-// ホームページ
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
 
-// ページ1
-Route::get('/page1', function () {
-    return view('page1');
-})->name('page1');
+Route::redirect('/', '/migration-task');
 
-// ページ2
-Route::get('/page2', function () {
-    return view('page2');
-})->name('page2');
-
-// パラメータありルート
-Route::get('/user/{id}', function ($id) {
-    return view('user', ['id' => $id]);
-})->name('user.show');
+// マイグレーションタスク関連のルート
+Route::get('/migration-task', [MigrationVerifierController::class, 'index'])->name('migration-task.index');
+Route::get('/migration-task/{table}/verify', [MigrationVerifierController::class, 'verify'])->name('migration-task.verify');
